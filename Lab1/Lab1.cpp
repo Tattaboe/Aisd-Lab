@@ -9,13 +9,19 @@ int main()
 {
 	int size_b, size_a;
 	double value_b, value_a;
-
+	
+	
+	
 	cout << "Enter the size and value of an arbitrary vector" << endl;
 	cout << "Size: ";
 	cin >> size_b;
-	cout << "Value: ";
-	cin >> value_b;
 	Vector<double> b(size_b, value_b);
+	for (size_t i = 0; i < size_b; ++i) {
+		cout << "Enter the size and value of an arbitrary vector" << endl;
+		cin >> b[i];
+	}
+	
+	
 
 	cout << "Enter size and value for the specified vector" << endl;
 	cout << "Size: ";
