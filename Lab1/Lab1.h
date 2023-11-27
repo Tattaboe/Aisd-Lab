@@ -7,7 +7,6 @@
 
 using namespace std;
 
-const double PI = 3.14159265358979323846;
 
 template <typename T>
 class Vector {
@@ -54,15 +53,13 @@ public:
         }
         return _elem[index];
     }
-    _size
+   
     const T& operator[](size_t index) const {
         if (index >= _size) {
             throw out_of_range("Index out of range");
         }
         return _elem[index];
     }
-
-
 
 
 
@@ -111,18 +108,79 @@ public:
     }
 
 
-	Vector operator/(const T& scalar) const;
+    
+    Vector operator/(const T& scalar) const {
+        if (scalar == T()) {
+            throw invalid_argument("Cannot divide by zero");
+        }
+        Vector result(_size);
+        for (size_t i = 0; i < _size; ++i) {
+            result._elem[i] = _elem[i] / scalar;
+        }
+        return result;
+    }
 
-	Vector(const Vector& other);
-	~Vector();
 
-	Vector& operator=(const Vector& other);
-	size_t Get_Dim() const;
 
-	bool operator==(const Vector& other) const;
-	bool operator!=(const Vector& other) const;
-	friend ostream& operator<<(ostream& os, const Vector& vector);
-};
+    Vector(const Vector& other) : _size(other._size), _elem(new T[other._size]) {
+        for (size_t i = 0; i < _size; ++i) {
+            _elem[i] = other._elem[i];
+        }
+    }
+
+    ~Vector() { delete[] _elem; }
+
+
+
+	
+    Vector& operator=(const Vector& other) {
+        if (this != &other) {
+            if (_size != other._size) {
+                delete[] _elem;
+                _size = other._size;
+                _elem = new T[_size];
+            }
+
+            for (size_t i = 0; i < _size; ++i) {
+                _elem[i] = other._elem[i];
+            }
+        }
+        return *this;
+    }
+
+    size_t Get_Dim() const { return _size; }
+
+
+
+
+    bool operator==(const Vector& other) const {
+        if (_size != other._size) {
+            return false;
+        }
+
+        for (size_t i = 0; i < _size; ++i) {
+            if (_elem[i] != other._elem[i]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+    
+    bool operator!=(const Vector& other) const { return !(*this == other); }
+
+    friend ostream& operator<<(ostream& os, const Vector& vector) {
+        os << "(";
+        for (size_t i = 0; i < vector._size; ++i) {
+            os << vector._elem[i];
+            if (i != vector._size - 1) {
+                os << ", ";
+            }
+        }
+        os << ")";
+        return os;
+    }
+}
 
 
 
