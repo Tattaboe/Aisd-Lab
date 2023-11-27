@@ -1,4 +1,5 @@
-﻿#include <stdexcept>
+﻿
+#include <stdexcept>
 #include <complex> 
 #include <cmath>
 #include <iostream>
@@ -170,19 +171,32 @@ public:
     bool operator!=(const Vector& other) const { return !(*this == other); }
 
     friend ostream& operator<<(ostream& os, const Vector& vector) {
-        os << "(";
-        for (size_t i = 0; i < vector._size; ++i) {
+         for (size_t i = 0; i < vector._size; ++i) {
             os << vector._elem[i];
             if (i != vector._size - 1) {
-                os << ", ";
+               
             }
         }
-        os << ")";
+        
         return os;
     }
+
+
+};
+
+
+template <typename T>
+ double Perpendicular(const Vector<T>& a, const Vector<T>& b) {
+     T product = a * b;
+     T module = abs(a * b);
+
+    if (module == T()) {
+        throw invalid_argument("Cannot calculate the angle with a zero vector");
+    }
+
+    double result = product/module;
+    return  result;
 }
 
 
-
-
-
+ 
