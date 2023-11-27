@@ -191,7 +191,7 @@ template <typename T>
      T module = abs(a * b);
 
     if (module == T()) {
-        throw invalid_argument("Cannot calculate the angle with a zero vector");
+        throw invalid_argument("Cannot calculate with a zero vector");
     }
 
     double result = product/module;
