@@ -1,7 +1,7 @@
 ﻿#include <cmath>
 #define VECTOR_H_
 #include <iostream>
-#include "Lab1.h"
+#include "vector.cc"
 
 using namespace std;
 

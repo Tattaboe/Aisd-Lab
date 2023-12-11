@@ -77,7 +77,7 @@ public:
         return result;
     }
 
-     T operator*(const Vector<T>& other) const {
+    Vector  operator*(const Vector<T>& other) const {
         if (_size != other._size) {
             throw invalid_argument("Vectors must have the same dimension");
         }
@@ -164,19 +164,11 @@ public:
 
 template <typename T>
 Vector<T> find_pu_vector(const Vector<T>& a) {
-    // Нормализация вектора a
+    
     Vector<T> a_norm = a / sqrt(a * a);
-
-    // Генерация случайного вектора b
     Vector<T> b(a.Get_Dim(), T(-1), T(1));
-
-    // Вычисление проекции вектора b на вектор a_norm
-    Vector<T> proj = (b * a_norm) * a_norm;
-
-    // Вычисление ортогонального вектора b_orth
+    Vector<T> proj = (b * a_norm)* a_norm;
     Vector<T> b_orth = b - proj;
-
-    // Нормализация вектора b_orth
     Vector<T> b_orth_norm = b_orth / sqrt(b_orth * b_orth);
 
     return b_orth_norm;
