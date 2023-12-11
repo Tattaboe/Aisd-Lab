@@ -192,6 +192,133 @@ public:
     }
 
 
+    int get_len() {
+        if (_head == nullptr) {
+            return 0;
+        }
+        int len = 1;
+        Node<T>* node = _head->next;
+        while (node != _head) {
+            ++len;
+            node = node->next;
+        }
+        return len;
+    }
+
+
+    void delete_node(T data) {
+        Node<T>* tmp = _head;
+        int len = get_len();
+        for (int i = 0; i < len; ++i) {
+            if (tmp->data == data) {
+                if (tmp == _head) {
+                    pop_head();
+                }
+                else if (tmp == _tail) {
+                    pop_tail();
+                }
+                else {
+                    tmp->prev->next = tmp->next;
+                    tmp->next->prev = tmp->prev;
+                    delete tmp;
+                }
+                --_size;
+                return;
+            }
+            tmp = tmp->next;
+        }
+    }
+
+
+    T& operator[](size_t index) {
+        if (index >= _size) {
+            throw std::out_of_range("Index out of range");
+        }
+
+        Node<T>* current = nullptr;
+        if (index < _size / 2) {
+            current = _head;
+            for (size_t i = 0; i < index; ++i) {
+                current = current->next;
+            }
+        }
+        else {
+            current = _tail;
+            for (size_t i = _size - 1; i > index; --i) {
+                current = current->prev;
+            }
+        }
+
+        return current->data;
+    }
+
+
+    const T& operator[](size_t index) const {
+        if (index >= _size) {
+            throw std::out_of_range("Index out of range");
+        }
+
+        const Node<T>* current = nullptr;
+        if (index < _size / 2) {
+            current = _head;
+            for (size_t i = 0; i < index; ++i) {
+                current = current->next;
+            }
+        }
+        else {
+            current = _tail;
+            for (size_t i = _size - 1; i > index; --i) {
+                current = current->prev;
+            }
+        }
+
+        return current->data;
+    }
+
+
+
+    void clear() {
+        while (!empty()) {
+            pop_head();
+        }
+    }
+
+    ~Cycl_List() {
+        clear();
+    }
+
+    bool empty() const {
+        return (_size == 0);
+    }
+
+    void reverse();
+};
+
+
+template<typename T>
+void Cycl_List<T>::reverse() {
+    if (_head == nullptr || _head == _tail) {
+        return;
+    }
+
+    Node<T>* current = _head;
+    Node<T>* previous = nullptr;
+
+    do {
+        Node<T>* next_node = current->next;
+
+        current->next = previous;
+        current->prev = next_node;
+
+        previous = current;
+        current = next_node;
+    } while (current != _head);
+
+    _tail = _head;
+    _head = previous;
+}
+#endif
+
 
 
 
