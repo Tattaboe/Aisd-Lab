@@ -77,4 +77,121 @@ public:
     }
 
 
+    void push_tail(T data) {
+        Node<T>* tmp = new Node<T>(data);
+        if (_head == nullptr) {
+            _head = tmp;
+            _tail = tmp;
+            tmp->next = tmp;
+            tmp->prev = tmp;
+        }
+        else {
+            tmp->prev = _tail;
+            tmp->next = _head;
+            _tail->next = tmp;
+            _head->prev = tmp;
+            _tail = tmp;
+        }
+        ++_size;
+    }
+
+    void push_tail(const Cycl_List<T>& other) {
+        if (other.empty()) {
+            return;
+        }
+        if (empty()) {
+            *this = other;
+            return;
+        }
+        Node<T>* other_head = other._head;
+        Node<T>* other_tail = other._tail;
+        Node<T>* tmp = other_head;
+        do {
+            push_tail(tmp->data);
+            tmp = tmp->next;
+        } while (tmp != other_head);
+    }
+
+
+    void push_head(T data) {
+        Node<T>* tmp = new Node<T>(data);
+        if (_head == nullptr) {
+            _head = tmp;
+            _tail = tmp;
+            tmp->next = tmp;
+            tmp->prev = tmp;
+        }
+        else {
+            tmp->prev = _tail;
+            tmp->next = _head;
+            _tail->next = tmp;
+            _head->prev = tmp;
+            _head = tmp;
+        }
+        ++_size;
+    }
+
+
+    void push_head(const Cycl_List<T>& other) {
+        if (other.empty()) {
+            return;
+        }
+        if (empty()) {
+            *this = other;
+            return;
+        }
+        Node<T>* other_head = other._head;
+        Node<T>* other_tail = other._tail;
+        Node<T>* tmp = other_tail;
+        do {
+            push_head(tmp->data);
+            tmp = tmp->prev;
+        } while (tmp != other_tail);
+    }
+
+
+    void pop_head() {
+        if (_head == nullptr) {
+            return;
+        }
+        if (_head == _tail) {
+            delete _head;
+            _head = nullptr;
+            _tail = nullptr;
+        }
+        else {
+            Node<T>* new_head = _head->next;
+            new_head->prev = _tail;
+            _tail->next = new_head;
+            Node<T>* old_head = _head;
+            _head = new_head;
+            delete old_head;
+        }
+        --_size;
+    }
+
+
+    void pop_tail() {
+        if (_tail == nullptr) {
+            return;
+        }
+        if (_head == _tail) {
+            delete _tail;
+            _head = nullptr;
+            _tail = nullptr;
+        }
+        else {
+            Node<T>* new_tail = _tail->prev;
+            new_tail->next = _head;
+            _head->prev = new_tail;
+            Node<T>* old_tail = _tail;
+            _tail = new_tail;
+            delete old_tail;
+        }
+        --_size;
+    }
+
+
+
+
 
