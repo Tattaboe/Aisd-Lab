@@ -281,7 +281,6 @@ public:
     }
 
 
-
     void clear() {
         while (!empty()) {
             pop_head();
@@ -296,18 +295,19 @@ public:
         return (_size == 0);
     }
 
-    void reverse();
+    
 };
 
 
+
 template<typename T>
-void Cycl_List<T>::reverse() {
-    if (_head == nullptr || _head == _tail) {
+void reverse(Cycl_List<T>& list) {
+    if (list._head == nullptr || list._head == list._tail) {
         return;
     }
 
-    Node<T>* current = _head;
-    Node<T>* new_tail = _head;
+    Node<T>* current = list._head;
+    Node<T>* new_tail = list._head;
 
     do {
         Node<T>* temp_next = current->next;
@@ -316,10 +316,11 @@ void Cycl_List<T>::reverse() {
         current->prev = temp_next;
 
         current = temp_next;
-    } while (current != _head);
+    } while (current != list._head);
 
-    _head = _tail;
-    _tail = new_tail;
+    list._head = list._tail;
+    list._tail = new_tail;
 }
+
 
 #endif

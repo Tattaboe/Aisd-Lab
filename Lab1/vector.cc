@@ -2,6 +2,8 @@
 #include <iostream>
 #include <random>
 #include <cmath>
+#include <complex>
+
 
 template <typename T>
 class Vector {
@@ -86,6 +88,17 @@ public:
         return result;
     }
 
+    T operator^(const Vector<T>& other) const {
+        if (_size != other._size) {
+            throw std::invalid_argument("Vectors must have the same dimension");
+        }
+        T result = 0;
+        for (size_t i = 0; i < _size; ++i) {
+            result += _elem[i] * other._elem[i];
+        }
+        return result;
+    }
+
     Vector operator*(const T& scalar) const {
         Vector result(_size);
         for (size_t i = 0; i < _size; ++i) {
@@ -93,7 +106,30 @@ public:
         }
         return result;
     }
+    
+    template <typename U>
+    auto operator*(const U& operand) const {
+        if constexpr (std::is_same_v<U, T>) {
+            // Scalar multiplication 
+            Vector result(_size);
+            for (size_t i = 0; i < _size; ++i) {
+                result._elem[i] = _elem[i] * operand;
+            }
+            return result;
+        }
+        else if constexpr (std::is_same_v < U, std::complex <double>>) {
+            // Inner product with complex vector 
+            if (_size != operand._size) {
+                throw std::invalid_argument("Vectors must have the same dimension");
+            }
 
+            std::complex<double> result = 0.0;
+            for (size_t i = 0; i < _size; ++i) {
+                result += _elem[i] * std::conj(operand._elem[i]);
+            }
+            return result;
+        }  
+    }
     Vector operator/(const T& scalar) const {
         if (scalar == T()) {
             throw std::invalid_argument("Cannot divide by zero");
@@ -148,6 +184,8 @@ public:
     }
 
     bool operator!=(const Vector& other) const { return !(*this == other); }
+
+  
 
     friend std::ostream& operator<<(std::ostream& os, const Vector& vector) {
         for (size_t i = 0; i < vector._size; ++i) {
