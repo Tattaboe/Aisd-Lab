@@ -17,4 +17,4 @@ if(MSVC)
     endif()
 endif()
 
-add_executable(main "List.cpp" )
+add_executable(main "List.cc" )

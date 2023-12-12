@@ -61,13 +61,15 @@ public:
         _size = size;
     }
 
+    
+
 
     Cycl_List& operator=(const Cycl_List& other) {
         if (this != &other) {
-            Cycl_List tmp(other); 
-            std::swap(_head, tmp._head); 
-            std::swap(_tail, tmp._tail); 
-            _size = tmp._size; 
+            Cycl_List tmp(other);
+            std::swap(_head, tmp._head);
+            std::swap(_tail, tmp._tail);
+            _size = tmp._size;
         }
         return *this;
     }
@@ -113,6 +115,7 @@ public:
     }
 
 
+
     void push_head(T data) {
         Node<T>* tmp = new Node<T>(data);
         if (_head == nullptr) {
@@ -131,6 +134,7 @@ public:
         ++_size;
     }
 
+    
 
     void push_head(const Cycl_List<T>& other) {
         if (other.empty()) {
@@ -148,7 +152,6 @@ public:
             tmp = tmp->prev;
         } while (tmp != other_tail);
     }
-
 
     void pop_head() {
         if (_head == nullptr) {
@@ -170,7 +173,6 @@ public:
         --_size;
     }
 
-
     void pop_tail() {
         if (_tail == nullptr) {
             return;
@@ -191,19 +193,19 @@ public:
         --_size;
     }
 
-
+    
     int get_len() {
-        if (_head == nullptr) {
+        if (_head == nullptr)
             return 0;
-        }
         int len = 1;
         Node<T>* node = _head->next;
         while (node != _head) {
-            ++len;
+            len += 1;
             node = node->next;
         }
         return len;
     }
+
 
 
     void delete_node(T data) {
@@ -221,13 +223,16 @@ public:
                     tmp->prev->next = tmp->next;
                     tmp->next->prev = tmp->prev;
                     delete tmp;
+                    _size--;
                 }
-                --_size;
+               
                 return;
             }
             tmp = tmp->next;
         }
+        
     }
+
 
 
     T& operator[](size_t index) {
@@ -302,23 +307,19 @@ void Cycl_List<T>::reverse() {
     }
 
     Node<T>* current = _head;
-    Node<T>* previous = nullptr;
+    Node<T>* new_tail = _head;
 
     do {
-        Node<T>* next_node = current->next;
+        Node<T>* temp_next = current->next;
 
-        current->next = previous;
-        current->prev = next_node;
+        current->next = current->prev;
+        current->prev = temp_next;
 
-        previous = current;
-        current = next_node;
+        current = temp_next;
     } while (current != _head);
 
-    _tail = _head;
-    _head = previous;
+    _head = _tail;
+    _tail = new_tail;
 }
+
 #endif
-
-
-
-
