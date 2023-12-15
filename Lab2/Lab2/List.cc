@@ -22,7 +22,7 @@ int main() {
     }
     std::cout << std::endl;
 
-    list.reverse();
+    reverse(list);
 
     std::cout << "Reversed list: ";
     for (size_t i = 0; i < list.size(); i++) {
@@ -39,7 +39,7 @@ int main() {
     }
     std::cout << std::endl;
 
-    rand_list.reverse();
+    reverse(rand_list);
 
     std::cout << "Random_Reversed list: ";
     for (size_t i = 0; i < rand_list.size(); i++) {
@@ -57,7 +57,7 @@ int main() {
     }
     std::cout << std::endl;
 
-    list.reverse();
+    reverse(list);
 
     std::cout << "Original list (pop_head() and pop_tail()): ";
     for (size_t i = 0; i < list.size(); i++) {

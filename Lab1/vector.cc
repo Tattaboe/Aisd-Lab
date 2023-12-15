@@ -1,260 +1,271 @@
-﻿#include <stdexcept>
-#include <iostream>
-#include <random>
-#include <cmath>
-#include <complex>
-
+﻿#include <stdexcept> 
+#include <iostream> 
+#include <random> 
+#include <cmath> 
+#include <complex> 
 
 template <typename T>
 class Vector {
 private:
-    T* _elem;
-    size_t _size;
+	T* _elem;
+	size_t _size;
 
 public:
-    Vector() : _size(0), _elem(nullptr) {}
+	Vector() : _size(0), _elem(nullptr) {}
 
-    Vector(size_t size, const T& value = T()) : _size(size), _elem(new T[size]) {
-        for (size_t i = 0; i < _size; ++i) {
-            _elem[i] = value;
-        }
-    }
+	explicit Vector(size_t size, const T& value = T()) : _size(size), _elem(new T[size]) {
+		for (size_t i = 0; i < _size; ++i) {
+			_elem[i] = value;
+		}
+	}
 
-    Vector(size_t size, T low_bound, T up_bound) : _size(size), _elem(new T[size]) {
-        std::random_device rd;
-        std::mt19937 gen(rd());
+	Vector(size_t size, T low_bound, T up_bound) : _size(size), _elem(new T[size]) {
+		std::random_device rd;
+		std::mt19937 gen(rd());
 
-        if constexpr (std::is_integral<T>::value) {
-            std::uniform_int_distribution<T> dist(low_bound, up_bound);
-            for (size_t i = 0; i < _size; ++i) {
-                _elem[i] = dist(gen);
-            }
-        }
-        else if constexpr (std::is_floating_point<T>::value) {
-            std::uniform_real_distribution<T> dist(low_bound, up_bound);
-            for (size_t i = 0; i < _size; ++i) {
-                _elem[i] = dist(gen);
-            }
-        }
-        else {
-            throw std::invalid_argument("Type not supported");
-        }
-    }
+		if constexpr (std::is_integral<T>::value) {
+			std::uniform_int_distribution<T> dist(low_bound, up_bound);
+			for (size_t i = 0; i < _size; ++i) {
+				_elem[i] = dist(gen);
+			}
+		}
+		else if constexpr (std::is_floating_point<T>::value) {
+			std::uniform_real_distribution<T> dist(low_bound, up_bound);
+			for (size_t i = 0; i < _size; ++i) {
+				_elem[i] = dist(gen);
+			}
+		}
+		else {
+			throw std::invalid_argument("Type not supported");
+		}
+	}
 
-    T& operator[](size_t index) {
-        if (index >= _size) {
-            throw std::out_of_range("Index out of range");
-        }
-        return _elem[index];
-    }
+	T& operator[](size_t index) {
+		if (index >= _size) {
+			throw std::out_of_range("Index out of range");
+		}
+		return _elem[index];
+	}
 
-    const T& operator[](size_t index) const {
-        if (index >= _size) {
-            throw std::out_of_range("Index out of range");
-        }
-        return _elem[index];
-    }
+	const T& operator[](size_t index) const {
+		if (index >= _size) {
+			throw std::out_of_range("Index out of range");
+		}
+		return _elem[index];
+	}
 
-    Vector operator+(const Vector& other) const {
-        if (_size != other._size) {
-            throw std::invalid_argument("Vectors must have the same dimension");
-        }
-        Vector result(_size);
-        for (size_t i = 0; i < _size; ++i) {
-            result._elem[i] = _elem[i] + other._elem[i];
-        }
-        return result;
-    }
+	Vector operator+(const Vector& other) const {
+		if (_size != other._size) {
+			throw std::invalid_argument("Vectors must have the same dimension");
+		}
+		Vector result(_size);
+		for (size_t i = 0; i < _size; ++i) {
+			result._elem[i] = _elem[i] + other._elem[i];
+		}
+		return result;
+	}
 
-    Vector operator-(const Vector& other) const {
-        if (_size != other._size) {
-            throw std::invalid_argument("Vectors must have the same dimension");
-        }
-        Vector result(_size);
-        for (size_t i = 0; i < _size; ++i) {
-            result._elem[i] = _elem[i] - other._elem[i];
-        }
-        return result;
-    }
+	Vector operator-(const Vector& other) const {
+		if (_size != other._size) {
+			throw std::invalid_argument("Vectors must have the same dimension");
+		}
+		Vector result(_size);
+		for (size_t i = 0; i < _size; ++i) {
+			result._elem[i] = _elem[i] - other._elem[i];
+		}
+		return result;
+	}
 
-    Vector<T> operator*(const Vector<T>& other) const {
-        if (_size != other._size) {
-            throw std::invalid_argument("Vectors must have the same dimension");
-        }
-        Vector<T> result(_size);
-        for (size_t i = 0; i < _size; ++i) {
-            result._elem[i] = _elem[i] * other._elem[i];
-        }
-        return result;
-    }
+	Vector<T> operator*(const Vector<T>& other) const {
+		if (_size != other._size) {
+			throw std::invalid_argument("Vectors must have the same dimension");
+		}
+		Vector<T> result(_size);
+		for (size_t i = 0; i < _size; ++i) {
+			result._elem[i] = _elem[i] * other._elem[i];
+		}
+		return result;
+	}
 
-    T operator^(const Vector<T>& other) const {
-        if (_size != other._size) {
-            throw std::invalid_argument("Vectors must have the same dimension");
-        }
-        T result = 0;
-        for (size_t i = 0; i < _size; ++i) {
-            result += _elem[i] * other._elem[i];
-        }
-        return result;
-    }
+	T operator^(const Vector<T>& other) const {
+		if (_size != other._size) {
+			throw std::invalid_argument("Vectors must have the same dimension");
+		}
+		T result=0;
+		for (size_t i = 0; i < _size; ++i) {
+			result+= _elem[i] * other._elem[i];
+		}
+		return result;
+	}
 
-    Vector operator*(const T& scalar) const {
-        Vector result(_size);
-        for (size_t i = 0; i < _size; ++i) {
-            result._elem[i] = _elem[i] * scalar;
-        }
-        return result;
-    }
-    
-    template <typename U>
-    auto operator*(const U& operand) const {
-        if constexpr (std::is_same_v<U, T>) {
-            // Scalar multiplication 
-            Vector result(_size);
-            for (size_t i = 0; i < _size; ++i) {
-                result._elem[i] = _elem[i] * operand;
-            }
-            return result;
-        }
-        else if constexpr (std::is_same_v < U, std::complex <double>>) {
-            // Inner product with complex vector 
-            if (_size != operand._size) {
-                throw std::invalid_argument("Vectors must have the same dimension");
-            }
+	template <typename U>
+	auto operator*(const U& operand) const {
+		if constexpr (std::is_same_v<U, T>) {
 
-            std::complex<double> result = 0.0;
-            for (size_t i = 0; i < _size; ++i) {
-                result += _elem[i] * std::conj(operand._elem[i]);
-            }
-            return result;
-        }  
-    }
-    Vector operator/(const T& scalar) const {
-        if (scalar == T()) {
-            throw std::invalid_argument("Cannot divide by zero");
-        }
-        Vector result(_size);
-        for (size_t i = 0; i < _size; ++i) {
-            result._elem[i] = _elem[i] / scalar;
-        }
-        return result;
-    }
+			Vector result(_size);
+			for (size_t i = 0; i < _size; ++i) {
+				result._elem[i] = _elem[i] * operand;
+			}
+			return result;
+		}
+		else if constexpr (std::is_same_v < U, std::complex < double>>) {
 
-    Vector(const Vector& other) : _size(other._size), _elem(new T[other._size]) {
-        for (size_t i = 0; i < _size; ++i) {
-            _elem[i] = other._elem[i];
-        }
-    }
+			std::complex<double> result = 0.0;
+			for (size_t i = 0; i < _size; ++i) {
+				result += _elem[i] * std::conj(operand.elements_[i]);
+			}
+			return result;
+		}
+		else {
+			throw std::invalid_argument("Unsupported operand type");
+		}
+	}
 
-    ~Vector() {
-        delete[] _elem;
-    }
 
-    Vector& operator=(const Vector& other) {
-        if (this != &other) {
-            if (_size != other._size) {
-                delete[] _elem;
-                _size = other._size;
-                _elem = new T[_size];
-            }
+	Vector operator*(const T& scalar) const {
+		Vector result(_size);
+		for (size_t i = 0; i < _size; ++i) {
+			result._elem[i] = _elem[i] * scalar;
+		}
+		return result;
+	}
 
-            for (size_t i = 0; i < _size; ++i) {
-                _elem[i] = other._elem[i];
-            }
-        }
-        return *this;
-    }
+	Vector operator/(const T& scalar) const {
+		if (scalar == T()) {
+			throw std::invalid_argument("Cannot divide by zero");
+		}
+		Vector result(_size);
+		for (size_t i = 0; i < _size; ++i) {
+			result._elem[i] = _elem[i] / scalar;
+		}
+		return result;
+	}
 
-    size_t Get_Dim() const { return _size; }
+	Vector(const Vector& other) : _size(other._size), _elem(new T[other._size]) {
+		for (size_t i = 0; i < _size; ++i) {
+			_elem[i] = other._elem[i];
+		}
+	}
 
-    bool operator==(const Vector& other) const {
-        const double eps = 1.0E-5;
-        if (std::abs(_size - other._size) > eps) {
-            return false;
-        }
+	~Vector() {
+		delete[] _elem;
+	}
 
-        for (size_t i = 0; i < _size; ++i) {
-            if (std::abs(_elem[i] - other._elem[i]) > eps) {
-                return false;
-            }
-        }
+	Vector& operator=(const Vector& other) {
+		if (this != &other) {
+			if (_size != other._size) {
+				delete[] _elem;
+				_size = other._size;
+				_elem = new T[_size];
+			}
 
-        return true;
-    }
+			for (size_t i = 0; i < _size; ++i) {
+				_elem[i] = other._elem[i];
+			}
+		}
+		return *this;
+	}
 
-    bool operator!=(const Vector& other) const { return !(*this == other); }
+	size_t Get_Dim() const { return _size; }
 
-  
+	bool operator==(const Vector& other) const {
+		const double eps = 1.0E-5;
+		if (std::abs(_size - other._size) > eps) {
+			return false;
+		}
 
-    friend std::ostream& operator<<(std::ostream& os, const Vector& vector) {
-        for (size_t i = 0; i < vector._size; ++i) {
-            os << vector._elem[i];
-            if (i != vector._size - 1) {
-                os << " ";
-            }
-        }
+		for (size_t i = 0; i < _size; ++i) {
+			if (std::abs(_elem[i] - other._elem[i]) > eps) {
+				return false;
+			}
+		}
 
-        return os;
-    }
+		return true;
+	}
 
-    Vector<T> sqrt_elements() const {
-        Vector<T> result(_size);
-        for (size_t i = 0; i < _size; ++i) {
-            result[i] = std::sqrt(_elem[i]);
-        }
-        return result;
-    }
+	bool operator!=(const Vector& other) const { return !(*this == other); }
 
-    void normalize() {
-        T length_squared = T(0);
-        for (size_t i = 0; i < _size; ++i) {
-            length_squared += _elem[i] * _elem[i]; // Sum of squares of vector components
-        }
+	friend std::ostream& operator<<(std::ostream& os, const Vector& vector) {
+		for (size_t i = 0; i < vector._size; ++i) {
+			os <<
+				vector._elem[i];
+			if (i != vector._size - 1) {
+				os << " ";
+			}
+		}
 
-        if (length_squared == T(0)) {
-            throw std::invalid_argument("Cannot normalize zero vector");
-        }
+		return os;
+	}
 
-        T length = std::sqrt(length_squared); // Calculate vector length
+	void input_from_keyboard() {
+		std::cout << "Input size: ";
+		std::cin >> _size;
 
-        // Divide each element by the vector length
-        for (size_t i = 0; i < _size; ++i) {
-            _elem[i] /= length;
-        }
-    }
+		if (_elem != nullptr) {
+			delete[] _elem;
+		}
 
-    void input_from_keyboard() {
-        std::cout << "Input size: ";
-        std::cin >> _size;
+		_elem = new T[_size];
 
-        if (_elem != nullptr) {
-            delete[] _elem; // Free existing memory if any
-        }
+		for (size_t i = 0; i < _size; ++i) {
+			std::cout << "Enter element " << i << " of the vector: ";
+			std::cin >> _elem[i];
+		}
+	}
 
-        _elem = new T[_size];
+	void swap(size_t index1, size_t index2) {
+		if (index1 >= _size || index2 >= _size) {
+			throw std::out_of_range("Index out of range");
+		}
 
-        for (size_t i = 0; i < _size; ++i) {
-            std::cout << "Enter element " << i << " of the vector: ";
-            std::cin >> _elem[i];
-        }
-    }
+		T temp = _elem[index1];
+		_elem[index1] = _elem[index2];
+		_elem[index2] = temp;
+	}
+
+	T get_length() const {
+		T length_squared = static_cast<T>(0);
+
+		for (size_t i = 0; i < _size; ++i) {
+			length_squared += _elem[i] * _elem[i];
+		}
+
+		return std::sqrt(length_squared);
+	}
 };
 
+
+
 template <typename T>
-Vector<T> find_pu_vector(const Vector<T>& a) {
-    Vector<T> a_norm = a; // Create a copy of vector a
-    a_norm.normalize(); // Normalize vector a
+Vector<T> FindPerpendicularUnitVector(const Vector<T>& a) {
+	if (a.Get_Dim() != 2) {
+		throw std::invalid_argument("Perpendicular vector calculation is only supported for 2D vectors.");
+	}
 
-    // Generate a random vector b
-    Vector<T> b(a.Get_Dim(), T(-1), T(1));
+	//T length = a.get_length();
 
-    // Calculate the projection of vector b onto vector a_norm
-    Vector<T> project = (b * a_norm) * a_norm;
+	//if (length == T(0)) {
+	//	throw std::invalid_argument("Cannot normalize zero vector");
+	//}
 
-    // Calculate the orthogonal vector b_orth
-    Vector<T> b_orth = b - project;
-    b_orth.normalize(); // Normalize vector b_orth
-
-    return b_orth;
+	Vector<T> perp(2);
+	perp[0] = -a[1];
+	perp[1] = a[0];
+	T length = perp.get_length();
+	perp = perp / length;
+	return perp;
 }
+
+
+//template<typename T>
+//Vector<T> FindPerpendicularUnitVector(const Vector<T>& a) {
+//	// Вычисляем перпендикулярный вектор, меняя координаты местами и меняя знак одной из них
+//	Vector<T> perpendicular(-a.y, a.x);
+//
+//	// Нормализуем вектор, чтобы получить единичный вектор
+//	double length = sqrt(perpendicular.x * perpendicular.x + perpendicular.y * perpendicular.y);
+//	perpendicular.x /= length;
+//	perpendicular.y /= length;
+//
+//	return perpendicular;
+//}

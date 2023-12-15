@@ -20,6 +20,7 @@ struct Node {
 
 template <typename T>
 class Cycl_List {
+private:
     Node<T>* _head, * _tail;
     size_t _size;
 public:
@@ -295,32 +296,51 @@ public:
         return (_size == 0);
     }
 
+    Node<T>* get_head() const {
+        return _head;
+    }
+
+    Node<T>* get_tail() const {
+        return _tail;
+    }
+
+    void set_head(Node<T>* head) {
+        _head = head;
+    }
+
+    void set_tail(Node<T>* tail) {
+        _tail = tail;
+    }
+
+
     
 };
 
 
 
-template<typename T>
+
+   template<typename T>
 void reverse(Cycl_List<T>& list) {
-    if (list._head == nullptr || list._head == list._tail) {
+    if (list.get_head() == nullptr || list.get_head() == list.get_tail()) {
         return;
     }
 
-    Node<T>* current = list._head;
-    Node<T>* new_tail = list._head;
+    Node<T>* current = list.get_head();
+    Node<T>* next_node = nullptr;
 
     do {
-        Node<T>* temp_next = current->next;
+        Node<T>* temp_prev = current->prev;
 
-        current->next = current->prev;
-        current->prev = temp_next;
+        current->prev = current->next;
+        current->next = temp_prev;
 
-        current = temp_next;
-    } while (current != list._head);
+        next_node = current->prev;
+        current = next_node;
+    } while (current != list.get_head());
 
-    list._head = list._tail;
-    list._tail = new_tail;
+    Node<T>* temp_head = list.get_head();
+    list.set_head(list.get_tail());
+    list.set_tail(temp_head);
 }
 
-
-#endif
+ #endif
