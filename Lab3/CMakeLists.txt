@@ -1,21 +1,21 @@
-﻿# CMakeList.txt : CMake project for Lab3, include source and define
-# project specific logic here.
-#
-cmake_minimum_required (VERSION 3.8)
+﻿cmake_minimum_required(VERSION 3.11)
 
-# Enable Hot Reload for MSVC compilers if supported.
-if (POLICY CMP0141)
-  cmake_policy(SET CMP0141 NEW)
-  set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
-endif()
+ project(sorting CXX)
 
-project ("Lab3")
+ if(MSVC)
+     set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS true)
+     if(CMAKE_CXX_FLAGS MATCHES "/W[0-4]")
+         string(REGEX REPLACE "/W[0-4]" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+     else()
+         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
+     endif()
+ endif()
 
-# Add source to this project's executable.
-add_executable (Lab3 "Lab3.cpp" "Lab3.h")
+ add_library(sorting
+     "include/Stats.h"
+     "include/Sort.h"
+ )
 
-if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET Lab3 PROPERTY CXX_STANDARD 20)
-endif()
+ set_target_properties(sorting PROPERTIES LINKER_LANGUAGE CXX)
+ target_compile_features(sorting PUBLIC cxx_std_23)
 
-# TODO: Add tests and install targets if needed.
