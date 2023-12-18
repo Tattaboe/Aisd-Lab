@@ -1,26 +1,26 @@
-﻿
+
 #include "Stats.h"
 
 
 
 Stats Bubble_Sort(std::vector<int>& data)
 {
-	Stats res;
-	for (size_t i = 0; i < data.size() - 1; i++)
-	{
-		for (size_t j = 0; j < data.size() - 1 - i; j++)
-		{
-			res.comparison_count++;
-			if (data[j] > data[j + 1])
-			{
-				int tmp = data[j];
-				data[j] = data[j + 1];
-				data[j + 1] = tmp;
-				res.copy_count++;
-			}
-		}
-	}
-	return res;
+    Stats res;
+    for (size_t i = 0; i < data.size() - 1; i++)
+    {
+        for (size_t j = 0; j < data.size() - 1 - i; j++)
+        {
+            res.comparison_count++;
+            if (data[j] > data[j + 1])
+            {
+                int tmp = data[j];
+                data[j] = data[j + 1];
+                data[j + 1] = tmp;
+                res.copy_count++;
+            }
+        }
+    }
+    return res;
 }
 
 
