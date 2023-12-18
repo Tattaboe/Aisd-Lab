@@ -1,4 +1,5 @@
-﻿#include "Sort.h"
+﻿#include "../include/Sort.h"
+#include <vector>
 
 void PrintVector(const std::vector<int>& vec) {
     for (const auto& element : vec) {

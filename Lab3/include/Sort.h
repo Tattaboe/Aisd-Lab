@@ -30,13 +30,13 @@ Stats Bubble_Sort(std::vector<int>& data)
 Stats Cocktail_Sort(std::vector<int>& data) {
     Stats result;
     bool swapped = true;
-    size_t start = 0;
-    size_t end = data.size() - 1;
+    int start = 0;
+    int end = data.size() - 1;
 
     while (swapped)
     {
         swapped = false;
-        for (size_t i = start; i < end; ++i)
+        for (int i = start; i < end; ++i)
         {
             result.comparison_count++;
             if (data[i] > data[i + 1]) {
@@ -51,7 +51,7 @@ Stats Cocktail_Sort(std::vector<int>& data) {
             break;
         swapped = false;
         --end;
-        for (size_t i = end - 1; i >= start; --i)
+        for (int i = end - 1; i >= start; --i)
         {
             result.comparison_count++;
             if (data[i] > data[i + 1]) {
@@ -66,7 +66,6 @@ Stats Cocktail_Sort(std::vector<int>& data) {
     }
     return result;
 }
-
 
 
 
