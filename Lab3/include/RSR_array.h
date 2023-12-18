@@ -18,7 +18,7 @@ Stats RandomStats(int size) {
     int seed = 42;
     for (size_t i = 0; i < count; ++i) {
         std::vector<int> vec = GenerateRandomArray(size, seed);
-        average_stats += NaturalMergeSortWrapper(vec);
+        average_stats += Bubble_Sort(vec);
     }
     average_stats.comparison_count /= count;
     average_stats.copy_count /= count;
