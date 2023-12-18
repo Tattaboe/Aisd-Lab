@@ -20,13 +20,13 @@ int main() {
     PrintVector(arr);
     std::cout << bubble_stats;
 
-    std::vector<int> arr_cocktail = { 12, 7, 3, 9, 2, 15, 11 };
+    std::vector<int> arr_cocktail = { 6, 23, 14, 0, 8, 2, 34, 12, 4, 5 };
     Stats cocktail_stats = Cocktail_Sort(arr_cocktail);
     std::cout << "\nCocktail sort result:" << std::endl;
     PrintVector(arr_cocktail);
     std::cout << cocktail_stats;
 
-    std::vector<int> arr_merge = { 12, 7, 3, 9, 2, 15, 11 };
+    std::vector<int> arr_merge = { 6, 23, 14, 0, 8, 2, 34, 12, 4, 5 };
     Stats merge_stats = NaturalMergeSortWrapper(arr_merge);
     std::cout << "\nNatural merge sort result:" << std::endl;
     PrintVector(arr_merge);

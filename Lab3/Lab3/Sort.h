@@ -3,12 +3,13 @@
 
 
 
+
 Stats Bubble_Sort(std::vector<int>& data)
 {
     Stats res;
-    for (size_t i = 0; i < data.size() - 1; i++)
+    for (int i = 0; i < static_cast<int>(data.size()) - 1; i++)
     {
-        for (size_t j = 0; j < data.size() - 1 - i; j++)
+        for (int j = 0; j < static_cast<int>(data.size()) - 1 - i; j++)
         {
             res.comparison_count++;
             if (data[j] > data[j + 1])
@@ -24,16 +25,18 @@ Stats Bubble_Sort(std::vector<int>& data)
 }
 
 
+
+
 Stats Cocktail_Sort(std::vector<int>& data) {
     Stats result;
     bool swapped = true;
-    int start = 0;
-    int end = data.size() - 1;
+    size_t start = 0;
+    size_t end = data.size() - 1;
 
     while (swapped)
     {
         swapped = false;
-        for (int i = start; i < end; ++i)
+        for (size_t i = start; i < end; ++i)
         {
             result.comparison_count++;
             if (data[i] > data[i + 1]) {
@@ -48,7 +51,7 @@ Stats Cocktail_Sort(std::vector<int>& data) {
             break;
         swapped = false;
         --end;
-        for (int i = end - 1; i >= start; --i)
+        for (size_t i = end - 1; i >= start; --i)
         {
             result.comparison_count++;
             if (data[i] > data[i + 1]) {
@@ -63,6 +66,9 @@ Stats Cocktail_Sort(std::vector<int>& data) {
     }
     return result;
 }
+
+
+
 
 
 void Natural_Merge(std::vector<int>& a, size_t left, size_t middle, size_t right, Stats& stats) {

@@ -17,4 +17,4 @@ if(MSVC)
     endif()
 endif()
 
-add_executable(main "Sort_main.cc" )
+add_executable(main "Sort_main.cc"  "RSR_main.cc")
