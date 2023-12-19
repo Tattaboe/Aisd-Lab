@@ -6,11 +6,14 @@
 
 Stats Bubble_Sort(std::vector<int>& data)
 {
+    bool swapped = true;
     Stats res;
     for (int i = 0; i < static_cast<int>(data.size()) - 1; i++)
     {
+        swapped = false;
         for (int j = 0; j < static_cast<int>(data.size()) - 1 - i; j++)
         {
+            
             res.comparison_count++;
             if (data[j] > data[j + 1])
             {
@@ -18,8 +21,12 @@ Stats Bubble_Sort(std::vector<int>& data)
                 data[j] = data[j + 1];
                 data[j + 1] = tmp;
                 res.copy_count++;
+                swapped = true;
             }
+           
         }
+        if (!swapped)
+            break;
     }
     return res;
 }

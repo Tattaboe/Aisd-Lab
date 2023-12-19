@@ -6,9 +6,10 @@ void runExperiment() {
     for (int size : sizes) {
         std::cout << "Size array: " << size << std::endl;
 
-
-        Stats randomStats = RandomStats(size);
-        std::cout << "Randomly filled array:" << randomStats << std::endl;
+        Stats average_stats;
+        std::vector<int> randomStats = ReverseSortedArray(size);
+        average_stats += NaturalMergeSortWrapper(randomStats);
+        std::cout << "Randomly filled array:" << average_stats << std::endl;
     }
 }
 
